@@ -1,19 +1,4 @@
-require 'byebug'
-class Timestamp
-  attr_accessor :timestamp, :unix, :natural
-
-  def initialize(timestamp)
-    @timestamp = timestamp
-    get_time
-  end
-
-  def get_time
-    if timestamp.is_a? Integer
-      @natural = Time.at(timestamp).utc.strftime("%B %d, %Y")
-    else
-    end
-  end
-end
+require 'rails_helper'
 
 RSpec.describe Timestamp do
   let(:unix_timestamp) { 1450137600 }
@@ -26,7 +11,7 @@ RSpec.describe Timestamp do
     end
   end
 
-  pending "give a natural timestamp" do
+  context "given a natural timestamp" do
     it "returns the unix timestamp" do
       ts = Timestamp.new natural_timestamp
       expect(ts.unix).to eq unix_timestamp
