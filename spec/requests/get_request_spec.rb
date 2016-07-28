@@ -1,10 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe "Get Timestamp", type: :request do
-  it "receives a unix timestamp" do
-    get "/"
+  it "converts unix timestamp to natural language" do
+    get "/", { timestamp: 1450137600 }
     expect(response.content_type).to  eq "application/json"
     expect(response).to have_http_status :ok
-    #expect(response).to eq '{"unix": 1450137600, "natural": "December 15, 2015"}'
+    parsed_json = JSON.parse response.body
+    expect(parsed_json["natural"]).to eq "December 15, 2015"
+  end
+
+  it "converts natural language to unix timestamp " do
+    get "/", { timestamp: "December 15, 2015" }
+    expect(response.content_type).to  eq "application/json"
+    expect(response).to have_http_status :ok
+    parsed_json = JSON.parse response.body
+    expect(parsed_json["unix"]).to eq 1450137600
   end
 end
